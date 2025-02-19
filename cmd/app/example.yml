@@ -1,0 +1,11 @@
+qemu_system_rules:
+  scale: 2
+  soc:
+    - arm
+  cpu:
+    - cortex-m3
+  options:
+    - machine: netduino2
+    - gdb: tcp::3333
+    - nongraphic: True
+    - kernel: firmware.bin

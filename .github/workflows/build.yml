@@ -1,0 +1,20 @@
+name: Build Project
+
+on:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: [ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '^1.24.0'
+
+      - name: Build Go Project
+        run: cd cmd/app && go build
+
+      - name: Run Go Project
+        run: cd cmd/app && go run main.go
