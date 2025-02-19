@@ -14,7 +14,7 @@ jobs:
           go-version: '^1.24.0'
 
       - name: Build Go Project
-        run: cd cmd/apps && go build
+        run: ls -la ; cd cmd/apps && go build
 
       - name: Run Go Project
         run: cd cmd/apps && go run main.go
