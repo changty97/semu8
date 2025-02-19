@@ -1,0 +1,18 @@
+name: Build Project
+
+on:
+  pull_requests:
+
+steps:
+
+  - uses: actions/checkout@v4
+
+  - uses: actions/setup-go@v5
+    with:
+      go-version: '^1.24.0'
+
+  - name: Build Go Project
+    run: go build
+
+  - name: Run Go Project
+    run: go run main.go
