@@ -1,4 +1,5 @@
 qemu_system_rules:
+  scale: 2
   soc:
     - arm
   cpu:

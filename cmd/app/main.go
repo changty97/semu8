@@ -5,19 +5,28 @@ import (
     "io/ioutil"
     "path/filepath"
     "gopkg.in/yaml.v2"
+    "os/exec"
 )
 
 type Config struct {
-    Qemu_system_rules map[string]interface{}
+    Qemu_system_rules Parameters `yaml:"qemu_system_rules"`
 }
 
 type Parameters struct {
-    Soc string
-    Cpu string
-    Options string
+    Scale string `yaml:"scale"`
+    Soc []string `yaml:"soc"`
+    Cpu []string `yaml:"cpu"`
+    Sys_options []Options `yaml:"options"`
 }
 
-func main() {
+type Options struct {
+    Machine string `yaml:"machine"`
+    Gdb string `yaml:"gdb"`
+    Nongraphic string `yaml:"nongraphic"`
+    Kernel string `yaml:"kernel"`
+}
+
+func getYmlFile() *Parameters {
     filename, _ := filepath.Abs("./example.yml")
     yamlFile, err := ioutil.ReadFile(filename)
 
@@ -32,5 +41,26 @@ func main() {
         panic(err)
     }
 
-    fmt.Printf("Value: %#v\n", config.Qemu_system_rules)
+    return &config.Qemu_system_rules
+}
+
+func execute(Params Parameters) {
+    
+    fmt.Printf("%#v\n", Params)
+
+    app := "echo"
+    cmd := exec.Command(app, Params.Scale)
+    stdout, err := cmd.Output()
+
+    if err != nil {
+        fmt.Println(err.Error())
+        return
+    }
+
+    fmt.Println(string(stdout))
+}
+
+func main() {
+    file := getYmlFile()
+    execute(*file)
 }
