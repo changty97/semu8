@@ -1,7 +1,7 @@
 name: Build Project
 
 on:
-  pull_requests:
+  pull_request:
 
 steps:
 
