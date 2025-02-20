@@ -6,6 +6,7 @@ import (
     "path/filepath"
     "gopkg.in/yaml.v2"
     "os/exec"
+    "strconv"
 )
 
 type Config struct {
@@ -49,15 +50,24 @@ func execute(Params Parameters) {
     fmt.Printf("%#v\n", Params)
 
     app := "echo"
-    cmd := exec.Command(app, Params.Scale)
-    stdout, err := cmd.Output()
 
+    scale, err := strconv.Atoi(Params.Scale)
     if err != nil {
-        fmt.Println(err.Error())
-        return
+        panic(err)
     }
 
-    fmt.Println(string(stdout))
+    for i := 0; i < scale; i++ {
+        fmt.Println(i)
+        cmd := exec.Command(app, Params.Scale)
+        stdout, err := cmd.Output()
+
+        if err != nil {
+            fmt.Println(err.Error())
+            return
+        }
+
+        fmt.Println(string(stdout))
+    }
 }
 
 func main() {
